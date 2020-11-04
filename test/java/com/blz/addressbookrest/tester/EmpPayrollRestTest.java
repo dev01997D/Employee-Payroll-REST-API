@@ -72,9 +72,9 @@ public class EmpPayrollRestTest {
 	public void givenListOfNewEmployees_WhenAdded__ShouldMatchEmployeeCount() {
 		Employee[] arrayOfEmps = getEmployeeList();
 		empPayrollService = new EmpPayrollRestMain(Arrays.asList(arrayOfEmps));
-		Employee[] arrayOfEmployeePayrolls = { new Employee(0, "Sathya", "M", 4000000.00, LocalDate.now()),
-				new Employee(0, "Chandler", "M", 3000000.00, LocalDate.now()),
-				new Employee(0, "Joey", "M", 2000000.00, LocalDate.now()) };
+		Employee[] arrayOfEmployeePayrolls = { new Employee(0, "Verma", "M", 4000000.00, LocalDate.now()),
+				new Employee(0, "Devendra", "M", 3000000.00, LocalDate.now()),
+				new Employee(0, "Joy", "F", 2000000.00, LocalDate.now()) };
 		for (Employee employeePayrollData : arrayOfEmployeePayrolls) {
 			Response response = addEmployeeToJSONServer(employeePayrollData);
 			int statusCode = response.getStatusCode();
