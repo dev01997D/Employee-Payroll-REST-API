@@ -1,5 +1,6 @@
 package com.blz.addressbookrest.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,7 +20,8 @@ public class EmpPayrollRestMain {
 
 	public EmpPayrollRestMain(List<Employee> employeeList) {
 		this();
-		this.empPayrollList = new ArrayList<>(employeeList); // Use new memory not the same as provided by client to avoid confusion
+		this.empPayrollList = new ArrayList<>(employeeList); // Use new memory not the same as provided by client to
+																// avoid confusion
 
 	}
 
@@ -27,5 +29,9 @@ public class EmpPayrollRestMain {
 		if (ioService.equals(IOService.REST_IO))
 			return empPayrollList.size();
 		return 0;
+	}
+
+	public void addEmployeeToPayroll(Employee employeeData, IOService ioService) {
+		empPayrollList.add(employeeData);
 	}
 }
