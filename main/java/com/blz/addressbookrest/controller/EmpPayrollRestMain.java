@@ -47,4 +47,11 @@ public class EmpPayrollRestMain {
 		return this.empPayrollList.stream().filter(employeeData -> employeeData.name.equalsIgnoreCase(name)).findFirst()
 				.orElse(null);
 	}
+
+	public void deleteEmployeePayroll(String name, IOService restIo) {
+		Employee employeeData = this.getEmployeeData(name);
+		System.out.println(this.getEmployeeData(name));
+		if (employeeData != null)
+			empPayrollList.remove(employeeData);
+	}
 }
