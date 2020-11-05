@@ -18,6 +18,7 @@ import io.restassured.specification.RequestSpecification;
 import junit.framework.Assert;
 
 @SuppressWarnings("deprecation")
+
 public class EmpPayrollRestTest {
 	EmpPayrollRestMain empPayrollService = null;
 	private static Logger log = Logger.getLogger(EmpPayrollRestTest.class.getName());
@@ -49,14 +50,14 @@ public class EmpPayrollRestTest {
 		Employee[] arrayOfEmps = getEmployeeList();
 		empPayrollService = new EmpPayrollRestMain(Arrays.asList(arrayOfEmps));
 		long entries = empPayrollService.countEntries(IOService.REST_IO);
-		Assert.assertEquals(2, entries);
+		Assert.assertEquals(3, entries);
 	}
 
 	@Test
-	public void givenNewEmployee_WhenAddedInJsonServer_ShouldMatchResponseAndCount() {
+	public void givenNewEmployee_WhenAddedInJsonServer_ShouldMatchResponseAndCount() throws Exception {
 		Employee[] arrayOfEmps = getEmployeeList();
 		empPayrollService = new EmpPayrollRestMain(Arrays.asList(arrayOfEmps));
-		Employee employeeData = new Employee(0, "Mark ZukerBerg", "M", 3000000, LocalDate.now());
+		Employee employeeData = new Employee(0, "Mark", "F", 3000000, LocalDate.now());
 		Response response = addEmployeeToJSONServer(employeeData);
 		int statusCode = response.getStatusCode();
 		Assert.assertEquals(201, statusCode);
@@ -65,5 +66,23 @@ public class EmpPayrollRestTest {
 		empPayrollService.addEmployeeToPayroll(employeeData, IOService.REST_IO);
 		long entries = empPayrollService.countEntries(IOService.REST_IO);
 		Assert.assertEquals(3, entries);
+	}
+
+	@Test
+	public void givenListOfNewEmployees_WhenAdded__ShouldMatchEmployeeCount() {
+		Employee[] arrayOfEmps = getEmployeeList();
+		empPayrollService = new EmpPayrollRestMain(Arrays.asList(arrayOfEmps));
+		Employee[] arrayOfEmployeePayrolls = { new Employee(0, "Verma", "M", 4000000.00, LocalDate.now()),
+				new Employee(0, "Devendra", "M", 3000000.00, LocalDate.now()),
+				new Employee(0, "Joy", "F", 2000000.00, LocalDate.now()) };
+		for (Employee employeePayrollData : arrayOfEmployeePayrolls) {
+			Response response = addEmployeeToJSONServer(employeePayrollData);
+			int statusCode = response.getStatusCode();
+			Assert.assertEquals(201, statusCode);
+			employeePayrollData = new Gson().fromJson(response.asString(), Employee.class);
+			empPayrollService.addEmployeeToPayroll(employeePayrollData, IOService.REST_IO);
+		}
+		long entries = empPayrollService.countEntries(IOService.REST_IO);
+		Assert.assertEquals(7, entries);
 	}
 }
